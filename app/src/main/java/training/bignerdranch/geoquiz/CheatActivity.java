@@ -2,6 +2,7 @@ package training.bignerdranch.geoquiz;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +20,7 @@ public class CheatActivity extends AppCompatActivity {
 
     private TextView mAnswerTextView;
     private Button mShowAnswerButton;
+    private TextView mApiTextView;
 
     public static Intent newIntent(Context packageContext, boolean answerIsTrue) {
         Intent intent = new Intent(packageContext, CheatActivity.class);
@@ -51,6 +53,9 @@ public class CheatActivity extends AppCompatActivity {
                 showAnswer();
             }
         });
+
+        mApiTextView = findViewById(R.id.api_text_view);
+        mApiTextView.setText("API Level " + Build.VERSION.SDK_INT);
 
         if (mAnswerIsShown) {
             showAnswer();

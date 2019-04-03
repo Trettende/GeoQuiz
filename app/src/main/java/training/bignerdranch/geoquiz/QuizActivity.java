@@ -20,6 +20,7 @@ public class QuizActivity extends AppCompatActivity {
     private static final String KEY_INDEX = "index";
     private static final int REQUEST_CODE_CHEAT = 0;
     private static final String KEY_CHEATED = "cheated";
+    private static final String KEY_CHEAT_COUNT = "cheat count";
 
 
     private Button mTrueButton;
@@ -40,6 +41,7 @@ public class QuizActivity extends AppCompatActivity {
 
     private int mCurrentIndex = 0;
     private boolean[] mCheatBank = new boolean[mQuestionBank.length];
+    private int mCheatCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class QuizActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
             mCheatBank = savedInstanceState.getBooleanArray(KEY_CHEATED);
+            mCheatCount = savedInstanceState.getInt(KEY_CHEAT_COUNT);
         }
 
         mQuestionTextView = findViewById(R.id.question_text_view);
@@ -128,6 +131,7 @@ public class QuizActivity extends AppCompatActivity {
             }
             mCheatBank[mCurrentIndex] = CheatActivity.wasAnswerShown(data);
             mCheatBank[mCurrentIndex] = true;
+            mCheatCount++;
         }
     }
 
@@ -155,6 +159,7 @@ public class QuizActivity extends AppCompatActivity {
         Log.i(TAG, "onSaveInstanceState");
         outState.putInt(KEY_INDEX, mCurrentIndex);
         outState.putBooleanArray(KEY_CHEATED, mCheatBank);
+        outState.putInt(KEY_CHEAT_COUNT, mCheatCount);
     }
 
     @Override
@@ -189,5 +194,10 @@ public class QuizActivity extends AppCompatActivity {
         }
 
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
+
+        if (mCheatBank[mCurrentIndex]) {
+            String cheatsLeft = "You have " + (3 - mCheatCount) + " cheats left";
+            Toast.makeText(this, cheatsLeft, Toast.LENGTH_SHORT).show();
+        }
     }
 }
