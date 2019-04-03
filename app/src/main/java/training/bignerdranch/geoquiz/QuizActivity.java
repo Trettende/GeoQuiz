@@ -3,7 +3,6 @@ package training.bignerdranch.geoquiz;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -94,6 +93,11 @@ public class QuizActivity extends AppCompatActivity {
         });
     }
 
+    private void goToNextQuestion() {
+        mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
+        updateQuestion();
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -148,10 +152,5 @@ public class QuizActivity extends AppCompatActivity {
         }
 
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
-    }
-
-    private void goToNextQuestion() {
-        mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
-        updateQuestion();
     }
 }
